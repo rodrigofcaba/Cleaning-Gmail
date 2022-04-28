@@ -1,6 +1,5 @@
 
-import email
-import sys, argparse, re, signal, time, click
+import sys, argparse, re, signal, click
 from pwn import *
 from client import Client
 

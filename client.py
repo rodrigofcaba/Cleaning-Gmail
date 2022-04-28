@@ -1,5 +1,4 @@
 from imapclient import IMAPClient
-from matplotlib.style import available
 from pwn import *
 import click
 
