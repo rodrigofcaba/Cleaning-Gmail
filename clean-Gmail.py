@@ -52,7 +52,19 @@ def main():
     client = Client('imap.gmail.com')
 
     client.login(email,password)
+    client.folder = client.selectFolder()
 
+    if click.confirm("Do you want to delete some of those?", default=True):
+        criteria = client.searchCriteria()
+        delMsg = client.server.search(criteria)
+        client.cleanMessages(delMsg)
+
+    else:
+        log.failure("Operation aborted. No email has been deleted")
+
+    log.info("Logging out...")
+    client.server.logout()
+    log.success("Connection closed.")
 
 if __name__ == "__main__":
     main()

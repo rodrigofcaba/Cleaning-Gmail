@@ -16,6 +16,11 @@ class Client:
         "Trash": "[Gmail]/Papelera",
     }
 
+    AVAILABLE_CRITERIA = {
+        "All": "ALL",
+        "Unread": "UNSEEN"
+    }
+
     def __init__(self, host):
         self.host = host
 
@@ -23,18 +28,13 @@ class Client:
         log.info("Connecting...")
         self.server = IMAPClient(self.host, ssl=True, port=993)
         self.server.login(username, password)
-        log.success("Connected!\n")
+        log.success("Connected!\n\n")
 
         print(f"These are the available folders:\n")
         for folder in Client.AVAILABLE_FOLDERS.keys():
             print(folder)
 
-        self.folder = self.selectFolder()
-
-        if click.confirm("Do you want to delete them?", default=True):
-            self.cleanUnreadMessages()
-        else:
-            log.failure("Operation aborted. No email has been deleted")
+        
 
     def selectFolder(self):
         while True:
@@ -53,19 +53,30 @@ class Client:
             else:
                 log.failure("Folder not found")
 
-    def cleanUnreadMessages(self):
+    def searchCriteria(self):
+
+        while True:
+            for i in Client.AVAILABLE_CRITERIA:
+                print(i)
+
+            criteria = input("\nSelect one of the criteria above (case sensitive)\n")
+            if criteria in Client.AVAILABLE_CRITERIA.keys():
+                return Client.AVAILABLE_CRITERIA[criteria]
+            else:
+                log.failure('Invalid criteria\n')
+
+    def cleanMessages(self, messages):
         
-        delMsg = self.server.search("UNSEEN")
-        log.warning(f"You are about to delete {len(delMsg)} unread messages")
+        log.warning(f"You are about to delete {len(messages)} messages")
 
         if click.confirm("Do you want to continue?", default=True):
-            self.server.delete_messages(delMsg)
+            self.server.delete_messages(messages)
             self.server.expunge()
             self.server.close_folder()
             log.success(
-                "%d unread messages in your folder have been deleted" % len(delMsg)
+                "%d messages in your folder have been deleted" % len(messages)
             )
         else:
             log.failure("Operation aborted. No email has been deleted")
 
-        self.server.logout()
+        
