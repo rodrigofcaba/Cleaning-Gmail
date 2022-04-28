@@ -1,0 +1,1 @@
+# A simple CLI to manage your Gmail messages quickly
