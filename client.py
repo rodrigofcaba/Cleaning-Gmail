@@ -64,7 +64,7 @@ class Client:
             else:
                 log.failure('Invalid criteria\n')
 
-    def cleanMessages(self, messages):
+    def deleteMessages(self, messages):
         
         log.warning(f"You are about to delete {len(messages)} messages")
 

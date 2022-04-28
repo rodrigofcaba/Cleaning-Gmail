@@ -56,7 +56,7 @@ def main():
     if click.confirm("Do you want to delete some of those?", default=True):
         criteria = client.searchCriteria()
         delMsg = client.server.search(criteria)
-        client.cleanMessages(delMsg)
+        client.deleteMessages(delMsg)
 
     else:
         log.failure("Operation aborted. No email has been deleted")
