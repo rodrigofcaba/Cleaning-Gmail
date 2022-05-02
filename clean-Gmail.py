@@ -1,11 +1,14 @@
-
-import sys, argparse, re, signal, click
+import sys, argparse, re, signal, click, os
 from pwn import *
 from client import Client
+from dotenv import load_dotenv
+
 
 def signal_handler(sig, frame):
+    print("")
     log.info(f"You pressed cntrl+c, exiting...")
     sys.exit(0)
+
 
 def get_main_parser():
     parser = argparse.ArgumentParser(
@@ -19,13 +22,15 @@ def get_main_parser():
         help="Your Gmail address",
     )
     parser.add_argument(
-        "password",
+        "-p",
+        "--password",
         metavar="Password",
         type=str,
         help="The password of the email account used to login to the IMAP server.",
     )
 
     return parser
+
 
 def checkEmail(email):
     regex = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
@@ -34,7 +39,21 @@ def checkEmail(email):
         return False
     return True
 
+
+def checkPassword(args):
+
+    if args.password:
+        return args.password
+    elif os.environ.get("PASSWORD"):
+        print("here")
+        return os.environ.get("PASSWORD")
+    else:
+        pwd = input("\nNo password stored, please enter your password:\n")
+        return pwd
+
+
 def main():
+    load_dotenv()
     parser = get_main_parser()
     args = parser.parse_args()
 
@@ -43,14 +62,16 @@ def main():
     if checkEmail(args.email):
         email = args.email
     else:
-        log.failure('Please, enter a valid email')
+        log.failure("Please, enter a valid email")
         exit(0)
 
-    password = args.password
+    password = checkPassword(args)
 
-    client = Client('imap.gmail.com')
+    client = Client("imap.gmail.com")
 
-    client.login(email,password)
+    client.login(email, password)
+    os.environ["PASSWORD"] = password
+
     client.folder = client.selectFolder()
 
     if click.confirm("Do you want to delete some of those?", default=True):
@@ -64,6 +85,7 @@ def main():
     log.info("Logging out...")
     client.server.logout()
     log.success("Connection closed.")
+
 
 if __name__ == "__main__":
     main()
