@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 def signal_handler(sig, frame):
     print("")
-    log.info(f"You pressed cntrl+c, exiting...")
+    log.info(f"You pressed cntrl + c, exiting...")
     sys.exit(0)
 
 
@@ -19,14 +19,14 @@ def get_main_parser():
         "email",
         metavar="Email Sender",
         type=str,
-        help="Your Gmail address",
+        help="Your gmail address",
     )
     parser.add_argument(
         "-p",
         "--password",
         metavar="Password",
         type=str,
-        help="The password of the email account used to login to the IMAP server.",
+        help="The specific-application password for the email account used to login to the IMAP server.",
     )
 
     return parser
@@ -45,10 +45,9 @@ def checkPassword(args):
     if args.password:
         return args.password
     elif os.environ.get("PASSWORD"):
-        print("here")
         return os.environ.get("PASSWORD")
     else:
-        pwd = input("\nNo password stored, please enter your password:\n")
+        pwd = input("\nNo password stored, please enter your specific-application password:\n")
         return pwd
 
 
