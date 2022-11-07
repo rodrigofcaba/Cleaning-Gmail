@@ -39,9 +39,11 @@ Now, to use the app, navigate to the folder in which you have the folder cloned 
 ```bash
 cd ~/Desktop/Cleaning-Gmail
 ```
-Now you just run it using python. Use the "p" flag to introduce your password.
+You need to have python in your PATH or execute the binary using the full absolute path. Use the "p" flag to introduce your password. It will be securely stored so you don't have to right it down in the future to connect.
 
 ```bash
 python clean-Gmail.py your-email-account@gmail.com -p your-password 
 ```
 Press enter and follow the instructions.
+
+**NOTE:** After first successful login, you just need to type your email to connect to the server.
