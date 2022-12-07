@@ -2,10 +2,10 @@
 
 ## Requirements
 
-- Python
-- Git
-- Google account
-- Google application password
+- [Python](https://www.python.org/downloads/)
+- [Git](https://git-scm.com/) (You can also download the files of the repo [downloading the .zip](https://github.com/rodrigofcaba/Cleaning-Gmail/archive/refs/heads/master.zip))
+- [Google account](https://support.google.com/accounts/answer/27441?hl=es)
+- [Google application password](https://support.google.com/accounts/answer/185833?hl=es)
   
 
 ## Instructions
@@ -22,14 +22,13 @@ git clone https://github.com/rodrigofcaba/Cleaning-Gmail.git
 pip install -r requirements.txt
 ```
 
-Now you need to set up your google account to get the password to connect to your IMAP server. This you can do in your Google Account settings.
+3. Now you need to set up your google account to get the password to connect to your IMAP server. This you can do in your Google Account settings.
 
 ```
 Your google account -> security -> Apps passwords
 ```
-Generate a new password by selecting an application type (other), choose a name, for instance "IMAP CLIENT", click "Generate".
-
-Save the password you see on the screen, you will need it the first time you log into the server.
+4. Generate a new password by selecting an application type (other), choose a name, for instance "IMAP CLIENT", click "Generate".
+**NOTE:** **Save the password** you see on the screen, you will need it the first time you log into the server.
 
 
 ## Usage
