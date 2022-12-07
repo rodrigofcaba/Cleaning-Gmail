@@ -1,7 +1,14 @@
-import sys, argparse, re, signal, click, os
-from pwn import *
-from client import Client
+import argparse
+import os
+import re
+import signal
+import sys
+
+import click
 from dotenv import load_dotenv
+from pwn import *
+
+from client import Client
 
 
 def signal_handler(sig, frame):
@@ -47,7 +54,9 @@ def checkPassword(args):
     elif os.environ.get("PASSWORD"):
         return os.environ.get("PASSWORD")
     else:
-        pwd = input("\nNo password stored, please enter your specific-application password:\n")
+        pwd = input(
+            "\nNo password stored, please enter your specific-application password:\n"
+        )
         return pwd
 
 
@@ -69,6 +78,7 @@ def main():
     client = Client("imap.gmail.com")
 
     client.login(email, password)
+
     os.environ["PASSWORD"] = password
 
     client.folder = client.selectFolder()
