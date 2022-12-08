@@ -33,16 +33,22 @@ Your google account -> security -> Apps passwords
 
 ## Usage
 
-Now, to use the app, navigate to the folder in which you have the folder cloned from the repo. For example, if the folder is placed in your desktop:
+1. Navigate to the folder in which you have the folder cloned from the repo. For example, if the folder is placed in your desktop:
 
 ```bash
 cd ~/Desktop/Cleaning-Gmail
 ```
-You need to have python in your PATH or execute the binary using the full absolute path. Use the "p" flag to introduce your password. It will be securely stored so you don't have to right it down in the future to connect.
+2. You need to have [python in your PATH](https://realpython.com/add-python-to-path/) or execute the binary using the full absolute path. **Use the "p" flag to introduce your password**.
+   
+    **NOTE:** It will be securely stored so you don't have to write it down in the future to connect to the server.
 
 ```bash
-python clean-Gmail.py your-email-account@gmail.com -p your-password 
+python clean-gmail.py your-email-account@gmail.com -p your-password 
 ```
-Press enter and follow the instructions.
+3. Press enter and follow the instructions.
 
-**NOTE:** After first successful login, you just need to type your email to connect to the server.
+    **NOTE:** After first successful login, you just need to type your email to connect to the server:
+
+```bash
+python clean-gmail.py your-email-account@gmail.com
+```
