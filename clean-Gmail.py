@@ -1,11 +1,10 @@
 import argparse
-import os
 import re
 import signal
 import sys
 
 import click
-from dotenv import load_dotenv
+import keyring
 from pwn import *
 
 from client import Client
@@ -19,7 +18,7 @@ def signal_handler(sig, frame):
 
 def get_main_parser():
     parser = argparse.ArgumentParser(
-        description="This is a basic mail client using Gmail IMAP servers that allows you to delete your unread messages"
+        description="This is a basic email client using Gmail IMAP servers that allows you to delete your unread messages (or all of them)"
     )
 
     parser.add_argument(
@@ -51,8 +50,8 @@ def checkPassword(args):
 
     if args.password:
         return args.password
-    elif os.environ.get("PASSWORD"):
-        return os.environ.get("PASSWORD")
+    elif keyring.get_password("clean-gmail", args.email):
+        return keyring.get_password("clean-gmail", args.email)
     else:
         pwd = input(
             "\nNo password stored, please enter your specific-application password:\n"
@@ -61,25 +60,22 @@ def checkPassword(args):
 
 
 def main():
-    load_dotenv()
+
     parser = get_main_parser()
     args = parser.parse_args()
-
     signal.signal(signal.SIGINT, signal_handler)
 
     if checkEmail(args.email):
         email = args.email
+        password = checkPassword(args)
     else:
         log.failure("Please, enter a valid email")
         exit(0)
 
-    password = checkPassword(args)
-
     client = Client("imap.gmail.com")
 
     client.login(email, password)
-
-    os.environ["PASSWORD"] = password
+    keyring.set_password("clean-gmail", email, password)
 
     client.folder = client.selectFolder()
 
