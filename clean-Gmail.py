@@ -12,7 +12,7 @@ from client import Client
 
 def signal_handler(sig, frame):
     print("")
-    log.info(f"You pressed cntrl + c, exiting...")
+    log.info(f"You pressed ctrl + c, exiting...")
     sys.exit(0)
 
 
